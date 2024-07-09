@@ -59,8 +59,8 @@ class LoginForm extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.whiteColor, // ใช้ธีมสีที่นำเข้า
                         borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          const BoxShadow(
+                        boxShadow: const [
+                          BoxShadow(
                             color: Colors.black12,
                             blurRadius: 10.0,
                             offset: Offset(0, 10),
@@ -69,7 +69,7 @@ class LoginForm extends StatelessWidget {
                       ),
                       child: Column(
                         children: <Widget>[
-                          Icon(
+                          const Icon(
                             Icons.lock,
                             size: 100,
                             color: AppColors.primaryColor, // ใช้ธีมสีที่นำเข้า

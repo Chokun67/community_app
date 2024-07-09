@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:community_app/bloc/auth/auth_bloc.dart';
 import 'package:community_app/bloc/auth/auth_event.dart';
+import 'package:community_app/utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -21,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.44:3000/auth/login'),
+        Uri.parse('${Constants.baseUrl}/auth/login'),
         body: {
           'username': event.username,
           'password': event.password,

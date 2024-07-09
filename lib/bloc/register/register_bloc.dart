@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:community_app/utility/constants.dart';
 import 'package:http/http.dart' as http;
 import 'register_event.dart';
 import 'register_state.dart';
@@ -15,7 +16,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://your-api-url.com/register'),
+        Uri.parse('${Constants.baseUrl}/register'),
         body: {
           'username': event.username,
           'password': event.password,
