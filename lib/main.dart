@@ -1,12 +1,12 @@
-import 'package:community_app/bloc/auth/auth_bloc.dart';
-import 'package:community_app/bloc/auth/auth_event.dart';
-import 'package:community_app/bloc/auth/auth_state.dart';
 import 'package:community_app/view/home_page.dart';
 import 'package:community_app/view/login_page.dart';
 import 'package:community_app/view/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:community_app/bloc/auth/auth_bloc.dart';
+import 'package:community_app/bloc/auth/auth_event.dart';
+import 'package:community_app/bloc/auth/auth_state.dart';
 
 void main() {
   runApp(const MyApp());

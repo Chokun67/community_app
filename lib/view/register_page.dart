@@ -15,8 +15,11 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: const Color.fromARGB(255, 156, 181, 223),
-      appBar: AppBar(title: const Text('Login'),backgroundColor: const Color.fromARGB(255, 94, 83, 122),),
+      backgroundColor: const Color.fromARGB(255, 156, 181, 223),
+      appBar: AppBar(
+        title: const Text('Login'),
+        backgroundColor: const Color.fromARGB(255, 94, 83, 122),
+      ),
       body: BlocProvider(
         create: (context) => RegisterBloc(),
         child: RegisterForm(

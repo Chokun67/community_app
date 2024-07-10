@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:community_app/bloc/auth/auth_event.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'auth_state.dart';
