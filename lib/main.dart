@@ -1,5 +1,6 @@
 import 'package:community_app/view/home_page.dart';
 import 'package:community_app/view/login_page.dart';
+import 'package:community_app/view/nevigator.dart';
 import 'package:community_app/view/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +28,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Bloc Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         routes: {
           '/login': (context) => LoginPage(),
           '/register': (context) => RegisterPage(),
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
             } else if (state is Unauthenticated) {
               return LoginPage();
             } else if (state is Authenticated) {
-              return const HomePage();
+              return const NavigatorPage();
             } else {
               return Container();
             }

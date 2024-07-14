@@ -17,11 +17,12 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor, // ใช้ธีมสีที่นำเข้า
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Login',style: TextStyle(color: AppColors.whiteColor)),
         backgroundColor: AppColors.primaryColor, // ใช้ธีมสีที่นำเข้า
       ),
       body: BlocProvider(
-        create: (context) => LoginBloc(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
+        create: (context) => LoginBloc(
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
         child: LoginForm(_usernameController, _passwordController),
       ),
     );
@@ -32,7 +33,8 @@ class LoginForm extends StatelessWidget {
   final TextEditingController _usernameController;
   final TextEditingController _passwordController;
 
-  const LoginForm(this._usernameController, this._passwordController, {super.key});
+  const LoginForm(this._usernameController, this._passwordController,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,8 @@ class LoginForm extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(
+                                        BlocProvider.of<LoginBloc>(context)
+                                            .add(LoginButtonPressed(
                                           username: _usernameController.text,
                                           password: _passwordController.text,
                                         ));
@@ -107,9 +110,11 @@ class LoginForm extends StatelessWidget {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(context, '/register');
+                                        Navigator.pushNamed(
+                                            context, '/register');
                                       },
-                                      child: const Text('Don\'t have an account? Register'),
+                                      child: const Text(
+                                          'Don\'t have an account? Register'),
                                     ),
                                   ],
                                 ),

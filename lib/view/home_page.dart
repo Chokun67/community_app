@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:community_app/components/post_card.dart';
+import 'package:community_app/utility/colors.dart';
 import 'package:community_app/utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,49 +13,34 @@ import 'package:community_app/bloc/auth/auth_event.dart';
 import 'package:community_app/bloc/post/post_bloc.dart';
 import 'package:community_app/bloc/post/post_event.dart';
 import 'package:community_app/bloc/post/post_state.dart';
-import 'package:community_app/models/post.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PostBloc(secureStorage: const FlutterSecureStorage())
-        ..add(FetchPosts()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.exit_to_app),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-              },
-            ),
-          ],
-        ),
-        body: Column(
+    return Scaffold(
+      backgroundColor: AppColors.bggreyColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.barColor,
+        title: const Text('Home',style: TextStyle(color: AppColors.whiteColor)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+            },
+          ),
+        ],
+      ),
+      body: BlocProvider(
+        create: (context) =>
+            PostBloc(secureStorage: const FlutterSecureStorage())
+              ..add(FetchPosts()),
+        child: Column(
           children: [
             _CreatePostBox(),
             const Expanded(child: PostList()),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
           ],
         ),
       ),
@@ -65,29 +52,49 @@ class _CreatePostBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        final postBloc = BlocProvider.of<PostBloc>(context);
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return BlocProvider.value(
-              value: postBloc,
-              child: _CreatePostDialog(),
-            );
-          },
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.all(10.0),
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: const Text('คุณกำลังคิดอะไร'),
-      ),
-    );
+        onTap: () {
+          final postBloc = BlocProvider.of<PostBloc>(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return BlocProvider.value(
+                value: postBloc,
+                child: _CreatePostDialog(),
+              );
+            },
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor, // พื้นหลังสีขาว
+            borderRadius: BorderRadius.circular(10.0), // ขอบมน
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.person, size: 40),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor, // พื้นหลังสีขาว
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color:
+                          const Color.fromARGB(255, 187, 187, 187), // ขอบสีเทา
+                      width: 1.0, // ความกว้างของขอบ
+                    ),
+                  ),
+                  child: const Text('คุณกำลังคิดอะไร'),
+                ),
+              ),
+              const Icon(Icons.image, size: 40),
+            ],
+          ),
+        ));
   }
 }
 
@@ -124,7 +131,6 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final double dialogWidth = MediaQuery.of(context).size.width * 0.95;
     return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
         if (state is PostLoaded) {
@@ -137,25 +143,24 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
         }
       },
       builder: (context, state) {
-        return AlertDialog(
-          title: const Text('Create Post'),
-          content: SizedBox(
-            width: dialogWidth,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(labelText: 'Title'),
-                  ),
-                  TextField(
-                    controller: _contentController,
-                    decoration: const InputDecoration(labelText: 'Content'),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return AlertDialog(
+              title: const Text('Create Post'),
+              content: SizedBox(
+                width: constraints.maxWidth * 0.95,
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
+                      TextField(
+                        controller: _titleController,
+                        decoration: const InputDecoration(labelText: 'Title'),
+                      ),
+                      TextField(
+                        controller: _contentController,
+                        decoration: const InputDecoration(labelText: 'Content'),
+                      ),
+                      const SizedBox(height: 10),
                       DropdownButton<String>(
                         hint: const Text('Select Category'),
                         value: selectedCategoryId,
@@ -183,64 +188,71 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
                             });
                           }
                         },
-                        child: const Text('Add'),
+                        child: const Text('Add Category'),
+                      ),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children:
+                            selectedCategoryIds.map<Widget>((int categoryId) {
+                          final categoryName = categories.firstWhere(
+                              (category) =>
+                                  category['id'] == categoryId)['name'];
+                          return Chip(
+                            label: Text(categoryName),
+                            onDeleted: () {
+                              setState(() {
+                                selectedCategoryIds.remove(categoryId);
+                              });
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 10),
+                      _image == null
+                          ? const Text('No image selected.')
+                          : Image.file(File(_image!.path)),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () async {
+                          final pickedFile = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          setState(() {
+                            _image = pickedFile;
+                          });
+                        },
+                        child: const Text('Select Image'),
                       ),
                     ],
                   ),
-                  Wrap(
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    children: selectedCategoryIds.map<Widget>((int categoryId) {
-                      final categoryName = categories.firstWhere(
-                          (category) => category['id'] == categoryId)['name'];
-                      return Chip(
-                        label: Text(categoryName),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 10),
-                  _image == null
-                      ? const Text('No image selected.')
-                      : Image.file(File(_image!.path)),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final pickedFile = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        _image = pickedFile;
-                      });
-                    },
-                    child: const Text('Select Image'),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                final title = _titleController.text;
-                final content = _contentController.text;
-                BlocProvider.of<PostBloc>(context).add(AddPost(
-                  title: title,
-                  content: content,
-                  categoryIds: selectedCategoryIds,
-                  image: _image,
-                ));
-              },
-              child: const Text('Post'),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final title = _titleController.text;
+                    final content = _contentController.text;
+                    BlocProvider.of<PostBloc>(context).add(AddPost(
+                      title: title,
+                      content: content,
+                      categoryIds: selectedCategoryIds,
+                      image: _image,
+                    ));
+                  },
+                  child: const Text('Post'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -270,64 +282,6 @@ class PostList extends StatelessWidget {
           return const Center(child: Text('No posts available'));
         }
       },
-    );
-  }
-}
-
-class PostCard extends StatelessWidget {
-  final Post post;
-
-  const PostCard({super.key, required this.post});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.person, size: 40),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${post.user.firstName} ${post.user.lastName}',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(DateFormat.yMMMd()
-                        .format(DateTime.parse(post.createdAt))),
-                  ],
-                ),
-              ],
-            ),
-            Wrap(
-              spacing: 8.0, // Horizontal spacing between chips
-              runSpacing: 4.0, // Vertical spacing between rows of chips
-              children: post.categories.map<Widget>((category) {
-                return Chip(
-                  label: Text(category.name),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 10),
-            Text(post.title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 5),
-            Text(post.content),
-            if (post.image != null) ...[
-              const SizedBox(height: 10),
-              Image.network('${Constants.baseUrl}/uploads/${post.image}'),
-            ],
-          ],
-        ),
-      ),
     );
   }
 }
