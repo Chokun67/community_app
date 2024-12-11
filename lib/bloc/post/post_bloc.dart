@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:community_app/utility/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -53,7 +54,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       request.fields['title'] = event.title;
       request.fields['content'] = event.content;
       request.fields['categoryIds'] = jsonEncode(event.categoryIds);
-      print(jsonEncode(event.categoryIds));
+      debugPrint(jsonEncode(event.categoryIds));
       if (event.image != null) {
         request.files
             .add(await http.MultipartFile.fromPath('image', event.image!.path));

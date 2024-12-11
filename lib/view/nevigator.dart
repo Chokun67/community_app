@@ -7,10 +7,10 @@ class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
 
   @override
-  _NavigatorPageState createState() => _NavigatorPageState();
+  NavigatorPageState createState() => NavigatorPageState();
 }
 
-class _NavigatorPageState extends State<NavigatorPage> {
+class NavigatorPageState extends State<NavigatorPage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[

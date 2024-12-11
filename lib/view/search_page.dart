@@ -15,17 +15,19 @@ class SearchPage extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           SearchBloc(secureStorage: const FlutterSecureStorage()),
-      child: SearchContent(),
+      child: const SearchContent(),
     );
   }
 }
 
 class SearchContent extends StatefulWidget {
+  const SearchContent({super.key}); // เพิ่ม key ใน constructor
+
   @override
-  _SearchContentState createState() => _SearchContentState();
+  SearchContentState createState() => SearchContentState();
 }
 
-class _SearchContentState extends State<SearchContent> {
+class SearchContentState extends State<SearchContent> {
   int _selectedCategoryId = 1;
 
   void _onCategorySelected(int categoryId) {
@@ -138,7 +140,7 @@ class _CategoryButton extends StatelessWidget {
 }
 
 class _PostList extends StatelessWidget {
-  const _PostList({super.key});
+  const _PostList();
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -27,10 +27,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           final posts = postData.map((post) => Post.fromJson(post)).toList();
           emit(SearchLoaded(posts));
         } else {
-          emit(SearchError('Failed to load posts'));
+          emit(const SearchError('Failed to load posts'));
         }
       } catch (e) {
-        emit(SearchError('Failed to load posts'));
+        emit(const SearchError('Failed to load posts'));
       }
     });
   }

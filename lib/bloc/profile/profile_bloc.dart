@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,10 +38,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           List<Post> posts = jsonResponse.map((post) => Post.fromJson(post)).toList();
           emit(ProfileLoaded(userData, posts));
         } else {
-          emit(ProfileError('Failed to load profile or posts data'));
+          emit(const ProfileError('Failed to load profile or posts data'));
         }
       } catch (e) {
-        emit(ProfileError('Failed to load profile or posts data2'));
+        emit(const ProfileError('Failed to load profile or posts data2'));
       }
     });
   }
