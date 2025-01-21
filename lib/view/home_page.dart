@@ -1,13 +1,11 @@
 import 'dart:io';
+import 'package:community_app/bloc/category/categories_bloc.dart';
 import 'package:community_app/components/post_card.dart';
 import 'package:community_app/utility/colors.dart';
-import 'package:community_app/utility/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:community_app/bloc/auth/auth_bloc.dart';
 import 'package:community_app/bloc/auth/auth_event.dart';
 import 'package:community_app/bloc/post/post_bloc.dart';
@@ -23,12 +21,13 @@ class HomePage extends StatelessWidget {
       backgroundColor: AppColors.bggreyColor,
       appBar: AppBar(
         backgroundColor: AppColors.barColor,
-        title: const Text('Home',style: TextStyle(color: AppColors.whiteColor)),
+        title:
+            const Text('Home', style: TextStyle(color: AppColors.whiteColor)),
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+              context.read<AuthenticationBloc>().add(LoggedOut());
             },
           ),
         ],
@@ -53,7 +52,7 @@ class _CreatePostBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          final postBloc = BlocProvider.of<PostBloc>(context);
+          final postBloc = context.read<PostBloc>();
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -114,19 +113,6 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
   @override
   void initState() {
     super.initState();
-    _fetchCategories();
-  }
-
-  Future<void> _fetchCategories() async {
-    final response =
-        await http.get(Uri.parse('${Constants.baseUrl}/categories'));
-    if (response.statusCode == 200) {
-      setState(() {
-        categories = json.decode(response.body);
-      });
-    } else {
-      throw Exception('Failed to load categories');
-    }
   }
 
   @override
@@ -161,21 +147,38 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
                         decoration: const InputDecoration(labelText: 'Content'),
                       ),
                       const SizedBox(height: 10),
-                      DropdownButton<String>(
-                        hint: const Text('Select Category'),
-                        value: selectedCategoryId,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedCategoryId = newValue;
-                          });
+                      BlocBuilder<CategoriesBloc, CategoriesState>(
+                        builder: (context, state) {
+                          if (state is CategoriesLoading) {
+                            return const CircularProgressIndicator(); // แสดง Loading
+                          } else if (state is CategoriesLoaded) {
+                            categories =
+                                state.categories; // อัปเดต categories จาก Bloc
+                            return DropdownButton<String>(
+                              hint: const Text('Select Category'),
+                              value: selectedCategoryId,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedCategoryId = newValue;
+                                });
+                              },
+                              items: state.categories
+                                  .map<DropdownMenuItem<String>>(
+                                      (dynamic category) {
+                                return DropdownMenuItem<String>(
+                                  value: category['id'].toString(),
+                                  child: Text(category['name']),
+                                );
+                              }).toList(),
+                            );
+                          } else if (state is CategoriesError) {
+                            return Text(
+                              'Error: ${state.message}',
+                              style: const TextStyle(color: Colors.red),
+                            );
+                          }
+                          return const SizedBox.shrink();
                         },
-                        items: categories
-                            .map<DropdownMenuItem<String>>((dynamic category) {
-                          return DropdownMenuItem<String>(
-                            value: category['id'].toString(),
-                            child: Text(category['name']),
-                          );
-                        }).toList(),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -241,12 +244,12 @@ class __CreatePostDialogState extends State<_CreatePostDialog> {
                   onPressed: () {
                     final title = _titleController.text;
                     final content = _contentController.text;
-                    BlocProvider.of<PostBloc>(context).add(AddPost(
-                      title: title,
-                      content: content,
-                      categoryIds: selectedCategoryIds,
-                      image: _image,
-                    ));
+                    context.read<PostBloc>().add(AddPost(
+                          title: title,
+                          content: content,
+                          categoryIds: selectedCategoryIds,
+                          image: _image,
+                        ));
                   },
                   child: const Text('Post'),
                 ),

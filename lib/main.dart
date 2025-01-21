@@ -1,3 +1,4 @@
+import 'package:community_app/bloc/category/categories_bloc.dart';
 import 'package:community_app/view/home_page.dart';
 import 'package:community_app/view/login_page.dart';
 import 'package:community_app/view/nevigator.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthenticationBloc(secureStorage: secureStorage)..add(AppStarted()),
+        ),
+        BlocProvider(
+          create: (context) => CategoriesBloc()..add(const FetchCategories()),
         ),
       ],
       child: MaterialApp(
