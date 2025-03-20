@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:community_app/utility/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:community_app/models/post.dart';
+import 'package:community_app/features/home/data/models/post.dart';
 import 'post_event.dart';
 import 'post_state.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:community_app/utility/constants.dart';
-import 'package:community_app/models/post.dart';
+import 'package:community_app/features/home/data/models/post.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

@@ -1,5 +1,5 @@
-import 'package:community_app/models/category.dart';
-import 'package:community_app/models/user.dart';
+import 'package:community_app/features/home/data/models/category.dart';
+import 'package:community_app/features/home/data/models/user.dart';
 
 class Post {
   final int id;

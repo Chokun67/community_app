@@ -1,5 +1,5 @@
 
-import 'package:community_app/models/post.dart';
+import 'package:community_app/features/home/data/models/post.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class PostState extends Equatable {

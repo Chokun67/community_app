@@ -1,6 +1,6 @@
 import 'package:community_app/utility/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:community_app/models/post.dart';
+import 'package:community_app/features/home/data/models/post.dart';
 import 'package:community_app/utility/constants.dart';
 import 'package:intl/intl.dart';
 
