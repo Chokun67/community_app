@@ -1,7 +1,7 @@
 import 'package:community_app/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:community_app/bloc/profile/profile_bloc.dart';
+import 'package:community_app/features/home/presentation/bloc/profile/profile_bloc.dart';
 import 'package:community_app/components/post_card.dart';
 import 'package:community_app/utility/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

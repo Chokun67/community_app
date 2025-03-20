@@ -16,7 +16,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     try {
       final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/register'),
+        Uri.parse('${Constants.baseUrl}/auth/register'),
         body: {
           'username': event.username,
           'password': event.password,
@@ -24,9 +24,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           'lastName': event.lastName,
         },
       );
-
-      if (response.statusCode == 200) {
-        emit(RegisterInitial());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        emit(RegisterSuccess());
       } else {
         emit(RegisterFailure(error: 'Register failed'));
       }

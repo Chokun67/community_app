@@ -1,6 +1,8 @@
-import 'package:community_app/bloc/register/register_bloc.dart';
-import 'package:community_app/bloc/register/register_event.dart';
-import 'package:community_app/bloc/register/register_state.dart';
+import 'package:community_app/features/auth/presentation/bloc/register/register_bloc.dart';
+import 'package:community_app/features/auth/presentation/bloc/register/register_event.dart';
+import 'package:community_app/features/auth/presentation/bloc/register/register_state.dart';
+import 'package:community_app/features/auth/presentation/components/login_button.dart';
+import 'package:community_app/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +17,11 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 156, 181, 223),
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: const Color.fromARGB(255, 94, 83, 122),
+        title: const Text('Register',
+            style: TextStyle(color: AppColors.whiteColor)),
+        backgroundColor: AppColors.primaryColor,
       ),
       body: BlocProvider(
         create: (context) => RegisterBloc(),
@@ -55,6 +58,12 @@ class RegisterForm extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Register Failed: ${state.error}'),
             backgroundColor: Colors.red,
+          ));
+        }
+        if (state is RegisterSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Register Success'),
+            backgroundColor: Colors.green,
           ));
         }
       },
@@ -123,7 +132,8 @@ class RegisterForm extends StatelessWidget {
                           const SizedBox(height: 20),
                           state is RegisterLoading
                               ? const CircularProgressIndicator()
-                              : ElevatedButton(
+                              : CustomLoginButton(
+                                  text: "Register",
                                   onPressed: () {
                                     BlocProvider.of<RegisterBloc>(context).add(
                                       RegisterButtonPressed(
@@ -134,7 +144,6 @@ class RegisterForm extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: const Text('Register'),
                                 ),
                         ],
                       ),

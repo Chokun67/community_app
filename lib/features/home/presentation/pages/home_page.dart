@@ -1,16 +1,16 @@
 import 'dart:io';
-import 'package:community_app/bloc/category/categories_bloc.dart';
+import 'package:community_app/features/home/presentation/bloc/category/categories_bloc.dart';
 import 'package:community_app/components/post_card.dart';
 import 'package:community_app/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:community_app/bloc/auth/auth_bloc.dart';
-import 'package:community_app/bloc/auth/auth_event.dart';
-import 'package:community_app/bloc/post/post_bloc.dart';
-import 'package:community_app/bloc/post/post_event.dart';
-import 'package:community_app/bloc/post/post_state.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'package:community_app/features/home/presentation/bloc/post/post_bloc.dart';
+import 'package:community_app/features/home/presentation/bloc/post/post_event.dart';
+import 'package:community_app/features/home/presentation/bloc/post/post_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

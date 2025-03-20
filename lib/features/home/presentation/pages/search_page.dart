@@ -1,9 +1,9 @@
-import 'package:community_app/bloc/auth/auth_bloc.dart';
-import 'package:community_app/bloc/auth/auth_event.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_event.dart';
 import 'package:community_app/utility/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:community_app/bloc/search/search_bloc.dart';
+import 'package:community_app/features/home/presentation/bloc/search/search_bloc.dart';
 import 'package:community_app/components/post_card.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

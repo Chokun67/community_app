@@ -1,16 +1,20 @@
-import 'package:community_app/bloc/category/categories_bloc.dart';
-import 'package:community_app/view/home_page.dart';
-import 'package:community_app/view/login_page.dart';
-import 'package:community_app/view/nevigator.dart';
-import 'package:community_app/view/register_page.dart';
+import 'package:community_app/features/home/presentation/bloc/category/categories_bloc.dart';
+import 'package:community_app/dependency_injection.dart';
+import 'package:community_app/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:community_app/features/auth/presentation/pages/login_page.dart';
+import 'package:community_app/features/home/presentation/pages/home_page.dart';
+
+import 'package:community_app/components/nevigator.dart';
+import 'package:community_app/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:community_app/bloc/auth/auth_bloc.dart';
-import 'package:community_app/bloc/auth/auth_event.dart';
-import 'package:community_app/bloc/auth/auth_state.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_event.dart';
+import 'package:community_app/features/auth/presentation/bloc/auth/auth_state.dart';
 
-void main() {
+void main() async{
+  await setupLocator();
   runApp(const MyApp());
 }
 
@@ -23,6 +27,7 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider<LoginBloc>(create: (_) => sl<LoginBloc>()),
         BlocProvider(
           create: (context) => AuthenticationBloc(secureStorage: secureStorage)..add(AppStarted()),
         ),
@@ -33,16 +38,17 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Bloc Demo',
         routes: {
-          '/login': (context) => LoginPage(),
+          '/login': (context) => const LoginPage(),
           '/register': (context) => RegisterPage(),
           '/home': (context) => const HomePage(),
         },
+        debugShowCheckedModeBanner: false,
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is Uninitialized) {
               return const SplashScreen();
             } else if (state is Unauthenticated) {
-              return LoginPage();
+              return const LoginPage();
             } else if (state is Authenticated) {
               return const NavigatorPage();
             } else {

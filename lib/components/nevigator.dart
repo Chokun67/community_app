@@ -1,7 +1,7 @@
-import 'package:community_app/view/search_page.dart';
+import 'package:community_app/features/home/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:community_app/view/home_page.dart';
-import 'package:community_app/view/profile_page.dart';
+import 'package:community_app/features/home/presentation/pages/home_page.dart';
+import 'package:community_app/features/home/presentation/pages/profile_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
